@@ -23,6 +23,9 @@ public class VetDB {
              Statement statement = conn.createStatement()) {
             //You should have already created a database via terminal/command prompt OR MySQL Workbench
 
+            String clearTableSQL = "DROP TABLE dogs";
+            statement.executeUpdate(clearTableSQL);
+
             //Create a table in the database, if it does not exist already
             String createTableSQL = "CREATE TABLE IF NOT EXISTS dogs (Name varchar(30), Age int)";
             statement.executeUpdate(createTableSQL);
@@ -32,9 +35,26 @@ public class VetDB {
             String addDataSQL = "INSERT INTO dogs VALUES ('Poppy', 3)";
             statement.executeUpdate(addDataSQL);
 
+            addDataSQL = "INSERT INTO dogs VALUES ('Daisy', 8)";
+            statement.executeUpdate(addDataSQL);
+
+            addDataSQL = "INSERT INTO dogs VALUES ('Sporty', 13)";
+            statement.executeUpdate(addDataSQL);
+
             addDataSQL = "INSERT INTO dogs VALUES ('Zelda', 5)";
             statement.executeUpdate(addDataSQL);
-            System.out.println("Added two rows of data");
+            System.out.println("Added two new rows of data");
+
+            String fetchAllDataSQL = "SELECT * FROM Dogs";
+            ResultSet rs = statement.executeQuery(fetchAllDataSQL);
+
+            while (rs.next()) {
+                String dogName = rs.getString("Name");
+                int dogAge = rs.getInt("Age");
+                System.out.println("Dog name = " + dogName + " dog age = " + dogAge);
+            }
+
+            rs.close();
 
             statement.close();
             conn.close();
